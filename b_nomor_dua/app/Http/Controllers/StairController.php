@@ -25,81 +25,61 @@ class StairController extends Controller
                 $n=$request->input('n');
                 $last_array=[];
 
-
                 for($i=0;$i<$n; $i++){
                     $last_array[]=2;
+                }
+                if(array_sum($last_array)!=$n){
+                    $selisih=array_sum($last_array)-$n;
+                    for($i=0;$i<$selisih; $i++){
+                        $last=count($last_array)-1;
+                        $last_array[$last]=$last_array[$last]-1;
+                        if($last_array[$last]==0){
+                            unset($last_array[$last]);
+                        }
+                    }
                 }
 
                 $pos=[];
                 
                 
                 $posisi=0;
-                $j=0;
                 for($i=0;$i<$n; $i++){
-                    $pos[$j][$i]=1;
+                    $pos[0][]=1;
                 }
-                $j++;
 
                 $x=0;
-                while($x<pow($n,($n*(2/5)))){
+                while($x<1){
                     $k=0;
-                    foreach($pos[$posisi] as $key=>$po){
-                        $pos[$j]=$pos[$posisi];
-                        if($key==$k){
-                            $pos[$j][$k]=2;
+                    $addposisi=false;
+                    if(!empty($pos[$posisi])){
+                        foreach($pos[$posisi] as $key=>$po){
+                            $new=$pos[$posisi];
+                            if($key==$k){
+                                $new[$k]=2;
+                                
+                                if(array_sum($new)!=$n){
+                                    $last=count($new)-1;
+                                    $new[$last]=$new[$last]-1;
+                                    if($new[$last]==0){
+                                        unset($new[$last]);
+                                    }
+                                }
+                                if(!in_array($new, $pos)){
+                                    $pos[]=$new;
+                                    $k++;
+                                }
+                            }
                         }
-                        $j++;
-                        $k++;
                     }
                     $posisi++;
 
-                    // if($pos[count($pos)-1]==$last_array){
-                    //     $x=1;
-                    // }
-                    $x++;
-                }
-
-                $pos_2=[];
-                foreach($pos as $key=> $po){
-                    if(!in_array($po, $pos_2)){
-                        array_push($pos_2, $po);
-                    }
-                }
-                foreach($pos_2 as $key => $po){
-                    $q=0;
-                    while($q<1){
-                        if(array_sum($pos_2[$key])!=$n){
-                            $last=count($pos_2[$key])-1;
-                            $pos_2[$key][$last]=$pos_2[$key][$last]-1;
-                            if($pos_2[$key][$last]==0){
-                                unset($pos_2[$key][$last]);
-                            }
-                        }
-                        else{
-                            $q=1;
-                        }
-                    }
-                }
-
-                $a=0;
-                foreach($pos_2 as $value){
-                    $b=0;
-                    foreach($value as $subvalue){
-                        $res[$a][$b]=$subvalue;
-                        $b++;
-                    }
-                    $a++;
-                }
-
-                $result=[];
-                foreach($res as $key=> $po){
-                    if(!in_array($po, $result)){
-                        array_push($result, $po);
+                    if($pos[count($pos)-1]==$last_array){
+                        $x=1;
                     }
                 }
 
                 
-                return response(dd($result), 200 );
+                return response(dd($pos), 200 );
             }
         }
     }
