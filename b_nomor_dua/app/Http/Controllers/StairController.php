@@ -50,8 +50,6 @@ class StairController extends Controller
                 $x=0;
                 while($x<1){
                     $k=0;
-                    $addposisi=false;
-                    if(!empty($pos[$posisi])){
                         foreach($pos[$posisi] as $key=>$po){
                             $new=$pos[$posisi];
                             if($key==$k){
@@ -70,16 +68,18 @@ class StairController extends Controller
                                 }
                             }
                         }
-                    }
-                    $posisi++;
-
-                    if($pos[count($pos)-1]==$last_array){
+                        $posisi++;
+                        
+                    if(in_array($last_array, $pos)){
                         $x=1;
                     }
                 }
-
+                $output="";
+                foreach($pos as $key=>$po){
+                    $output=$output."<li>".json_encode($po)."</li>";
+                }
+                return response("Total: ".count($pos)."<br>"."Output: <br><ol>".$output."</ol>", 200 );
                 
-                return response(dd($pos), 200 );
             }
         }
     }

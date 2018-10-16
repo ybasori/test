@@ -8,7 +8,7 @@
     <div class="col-md-5">
         <form id="form">
             <div class="form-group row">
-                <label for="" class="control-label col-md-3">N</label>
+                <label for="" class="control-label col-md-3">Langkah</label>
                 <div class="col-md-9">
                     <input type="text" class="form-control" name="n">
                 </div>
